@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.concurrent.TimeUnit;
 
 public class TipCalculatorGUI extends JFrame implements KeyListener, ActionListener {
     private JTextField billForm;
@@ -16,6 +15,8 @@ public class TipCalculatorGUI extends JFrame implements KeyListener, ActionListe
     private JTextField calculatedTipForm;
     private JTextField calculatedTotalForm;
     private JPanel mainPanel;
+    private JLabel totalLabel;
+    private JLabel tipLabel;
     private TipCalculator calculator;
 
     public TipCalculatorGUI() {
@@ -34,11 +35,11 @@ public class TipCalculatorGUI extends JFrame implements KeyListener, ActionListe
     }
 
     private void setupInitialValues() {
-        peopleForm.setText("0");
+        peopleForm.setText("1");
         billForm.setText("0");
         tipForm.setText("0");
-        calculatedTipForm.setText("0");
-        calculatedTotalForm.setText("0");
+        calculatedTipForm.setText("0.0");
+        calculatedTotalForm.setText("0.0");
     }
 
     private void addActionListeners() {
@@ -60,12 +61,21 @@ public class TipCalculatorGUI extends JFrame implements KeyListener, ActionListe
             int tipPercent = Integer.parseInt(tipForm.getText());
             int numPeople = Integer.parseInt(peopleForm.getText());
 
+            if (numPeople > 1) {
+                updateLabels();
+            }
+
             calculator = new TipCalculator(bill, tipPercent, numPeople);
             calculatedTipForm.setText(String.valueOf(calculator.calculateTip()));
             calculatedTotalForm.setText(String.valueOf(calculator.totalPerPerson()));
         } catch (NumberFormatException e) {
             System.out.println("Cannot parse numbers");
         }
+    }
+
+    private void updateLabels() {
+        tipLabel.setText("Tip per person");
+        totalLabel.setText("Total per person");
     }
 
     @Override

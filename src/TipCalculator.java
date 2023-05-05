@@ -36,12 +36,14 @@ public class TipCalculator
     //calculate tip per person
     public double tipPerPerson()
     {
-        return calculateTip()/numberOfPeople;
+        double tip = numberOfPeople > 0 ? calculateTip() / numberOfPeople : 0;
+        return tip;
     }
 
     //Total per person
     public double totalPerPerson()
     {
-        return bill/numberOfPeople + tipPerPerson();
+        double total = numberOfPeople > 0 ? bill / numberOfPeople + tipPerPerson() : 0;
+        return total;
     }
 }
